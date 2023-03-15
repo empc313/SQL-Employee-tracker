@@ -19,7 +19,7 @@ const connection = mysql.createConnection({
         message: "What would you like to do?",
         choices: [
             'View All Employees',
-            'Add Employee',
+            'Add New Employee',
             'Update Employee',
             'View All Departments',
             'Add Department',
@@ -99,7 +99,65 @@ const connection = mysql.createConnection({
         console.table(res);
         viewAllRoles(roleChoices);
       });
-    }
+    };
 
-    //ADD FUNCTIONS
-    
+    const addNewEmployee = () => {
+    connection.query('SELECT * FROM role', (err, roles) => {
+        if (err) console.log(err);
+        roles = roles.map((role) => {
+            return {
+                name: role.title,
+                value: role.id,
+            };
+        });
+        inquirer
+            .prompt([
+                {
+                    type: 'input',
+                    name: 'firstName',
+                    message: 'Enter first name of new employee...'
+                },
+                {
+                    type: 'input',
+                    name: 'lastName',
+                    message: 'Enter last name of new employee...'
+                },
+                {
+                    type: 'list',
+                    name: 'role',
+                    message: 'Enter new employee role...',
+                    choices: roles,
+                },
+                {
+                    type: 'list',
+                    name: 'managerId',
+                    message: 'select a manager id...',
+                    choices: [0, 1, 2, 3, 4]
+                }
+            ])
+            .then((data) => {
+                console.log(data.role);
+                connection.query(
+                    'INSERT INTO employee SET ?',
+                    {
+                        first_name: data.firstName,
+                        last_name: data.lastName,
+                        role_id: data.role,
+                        manager_id: data.managerId
+                    },
+                    (err) => {
+                        if (err) throw err;
+                        console.log('Updated Employee Roster;');
+                        viewAllEmployee();
+
+                    }
+                );
+            });
+
+    });
+
+};
+
+  
+      
+   
