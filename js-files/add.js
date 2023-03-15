@@ -137,6 +137,8 @@ const addNewEmployee = () => {
 };
 //update an employee role, update and their new role 
 
+
+//UPDATE
 const updateEmployee = () => {
     connection.query('SELECT * FROM employee', (err, employees) => {
         if (err) console.log(err);
@@ -190,4 +192,9 @@ const updateEmployee = () => {
         });
     });
 };
+
+
+
+
+
 

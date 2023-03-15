@@ -10,8 +10,9 @@ const connection = mysql.createConnection({
     password: "",
     database: "employee_db"
 })
- inquirer
- .prompt([
+
+
+    inquirer.prompt([
      //Questions
      {
         type: "list",
@@ -58,7 +59,7 @@ const connection = mysql.createConnection({
             connection.end();
         }
 
-    });
+ });
 
     //VIEW 
     //View all departments
