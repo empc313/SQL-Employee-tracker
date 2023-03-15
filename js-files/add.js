@@ -2,7 +2,7 @@
 const  inquirer  = require("inquirer");
 const mysql = require('mysql');
 const cTable = require("console.table");
-const path = require('path')
+
 
 //ADD
 
@@ -136,4 +136,58 @@ const addNewEmployee = () => {
 
 };
 //update an employee role, update and their new role 
+
+const updateEmployee = () => {
+    connection.query('SELECT * FROM employee', (err, employees) => {
+        if (err) console.log(err);
+        employees = employees.map((employee) => {
+            return {
+                name: `${employee.first_name} ${employee.last_name}`,
+                value: employee.id,
+            };
+        });
+        connection.query('SELECT * FROM role', (err, roles) => {
+            if (err) console.log(err);
+            roles = roles.map((role) => {
+                return {
+                    name: role.title,
+                    value: role.id,
+                }
+            });
+            inquirer
+                .prompt([
+                    {
+                        type: 'list',
+                        name: 'selectEmployee',
+                        message: 'Select Employee to Update',
+                        choices: employees,
+                    },
+                    {
+                        type: 'list',
+                        name: 'selectNewRole',
+                        message: 'Select Employee Role.',
+                        choices: roles,
+                    },
+                ])
+                .then((data) => {
+                    connection.query('UPDATE employee SET ? WHERE ?',
+                        [
+                            {
+                                role_id: data.selectNewRole,
+                            },
+                            {
+                                id: data.selectEmployee,
+                            },
+                        ],
+                        function (err) {
+                            if (err) throw err;
+                        }
+                    );
+                    console.log('Employee Updated!');
+                    viewAllEmployee();
+                });
+
+        });
+    });
+};
 

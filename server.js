@@ -2,7 +2,7 @@
 const  inquirer  = require("inquirer");
 const mysql = require('mysql2');
 const cTable = require("console.table");
-const path = require('path');
+
 
 const connection = mysql.createConnection({
     host:"127.0.0.1",
@@ -60,9 +60,9 @@ const connection = mysql.createConnection({
 
     });
 
-    //VIEW FUNCTIONS
+    //VIEW 
     //View all departments
-    function viewAllDepartments(){
+    const viewAllDepartments = () => {
         let query =
         `SELECT * FROM department`
       connection.query(query,(err, res)=>{
@@ -75,7 +75,7 @@ const connection = mysql.createConnection({
       });
     }
 //View all employees
-    function viewAllEmployee(){
+    const viewAllEmployee = () => {
         let query =
         `SELECT * FROM employee`
       connection.query(query,(err, res)=>{
@@ -88,7 +88,7 @@ const connection = mysql.createConnection({
       });
     }
 //View all roles
-    function viewAllRoles(){
+   const viewAllRoles= () => {
         let query =
         `SELECT * FROM role`
       connection.query(query,(err, res)=>{
@@ -101,8 +101,9 @@ const connection = mysql.createConnection({
       });
     };
 
-    //ADD 
-    //Add new employee
+    
+//ADD 
+//Add new employee
     const addNewEmployee = () => {
     connection.query('SELECT * FROM role', (err, roles) => {
         if (err) console.log(err);
@@ -235,4 +236,56 @@ const addNewRole = () => {
 };
   
       
-   
+const updateEmployee = () => {
+    connection.query('SELECT * FROM employee', (err, employees) => {
+        if (err) console.log(err);
+        employees = employees.map((employee) => {
+            return {
+                name: `${employee.first_name} ${employee.last_name}`,
+                value: employee.id,
+            };
+        });
+        connection.query('SELECT * FROM role', (err, roles) => {
+            if (err) console.log(err);
+            roles = roles.map((role) => {
+                return {
+                    name: role.title,
+                    value: role.id,
+                }
+            });
+            inquirer
+                .prompt([
+                    {
+                        type: 'list',
+                        name: 'selectEmployee',
+                        message: 'Select Employee to Update',
+                        choices: employees,
+                    },
+                    {
+                        type: 'list',
+                        name: 'selectRole',
+                        message: 'Select Employee Role.',
+                        choices: roles,
+                    },
+                ])
+                .then((data) => {
+                    connection.query('UPDATE employee SET ? WHERE ?',
+                        [
+                            {
+                                role_id: data.selectNewRole,
+                            },
+                            {
+                                id: data.selectEmployee,
+                            },
+                        ],
+                        function (err) {
+                            if (err) throw err;
+                        }
+                    );
+                    console.log('Employee Updated!');
+                    viewAllEmployee();
+                });
+
+        });
+    });
+};
