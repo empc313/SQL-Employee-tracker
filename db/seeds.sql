@@ -6,7 +6,7 @@ VALUES ("Sales"),
 ("Engineering");
 
 
-INSERT INTO role (title,salary, department_id)
+INSERT INTO role (title, salary, department_id)
 VALUES ("Sales Manager", 120000, 1),
 ("Accountant", 125000, 2),
 ("Associate", 100000, 1),

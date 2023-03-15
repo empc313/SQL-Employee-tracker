@@ -22,7 +22,7 @@ const connection = mysql.createConnection({
             'Add New Employee',
             'Update Employee',
             'View All Departments',
-            'Add Department',
+            'Add New Department',
             'View All Roles',
             'Add New Role',
             'EXIT'
@@ -101,6 +101,8 @@ const connection = mysql.createConnection({
       });
     };
 
+    //ADD 
+    //Add new employee
     const addNewEmployee = () => {
     connection.query('SELECT * FROM role', (err, roles) => {
         if (err) console.log(err);
@@ -147,7 +149,7 @@ const connection = mysql.createConnection({
                     },
                     (err) => {
                         if (err) throw err;
-                        console.log('Updated Employee Roster;');
+                        console.log('Updated Employee ;');
                         viewAllEmployee();
 
                     }
@@ -158,6 +160,79 @@ const connection = mysql.createConnection({
 
 };
 
+//Add new department
+
+const addNewDepartment = () => {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'newDepartment',
+                message: 'Enter New Department.'
+            },
+        ])
+        .then((data) => {
+            connection.query('INSERT INTO department SET ?',
+                {
+                    name: data.newDepartment,
+                },
+                function (err) {
+                    if (err) throw err;
+                }
+            );
+            console.log('New department added!')
+            viewAllDepartments();
+        });
+};
+
+//Add new role
+const addNewRole = () => {
+    connection.query('SELECT * FROM department', (err, departments) => {
+        if (err) console.log(err);
+        departments = departments.map((department) => {
+            return {
+                name: department.name,
+                value: department.id,
+            };
+        });
+        inquirer
+            .prompt([
+                {
+                    type: 'input',
+                    name: 'newRole',
+                    message: 'Enter name of new role.'
+                },
+                {
+                    type: 'input',
+                    name: 'salary',
+                    message: 'Enter salary of new role.',
+                },
+                {
+                    type: 'list',
+                    name: 'departmentId',
+                    message: 'Enter department of new role.',
+                    choices: departments,
+                },
+            ])
+            .then((data) => {
+                connection.query(
+                    'INSERT INTO role SET ?',
+                    {
+                        title: data.newRole,
+                        salary: data.salary,
+                        department_id: data.departmentId,
+                    },
+                    function (err) {
+                        if (err) throw err;
+                    }
+                );
+                console.log('Added New Role!')
+                viewAllRoles();
+            });
+
+    });
+
+};
   
       
    
