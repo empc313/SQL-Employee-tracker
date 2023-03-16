@@ -1,8 +1,11 @@
 # SQL-Employee-tracker
 
-# Description
+## Description
+
+A command line application that allows you to view employees in a database, and acssess, add, and update employee info
 
 ## Acceptance Criteria
+
 GIVEN a command-line application that accepts user input
 WHEN I start the application
 THEN I am presented with the following options: view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
@@ -22,9 +25,15 @@ WHEN I choose to update an employee role
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database
 
 ## User Story
+
 <img width="843" alt="Screenshot 2023-03-15 at 11 22 08 PM" src="https://user-images.githubusercontent.com/122828454/225522301-bf7ce50a-e225-4597-a362-16a71e32fba8.png">
 
 ## Installation
 
+-MySQL
+-Node.js
+-Inquirer
+
 ## Contributing
-- https://fsymbols.com/generators/carty/
+
+<https://fsymbols.com/generators/carty/>
