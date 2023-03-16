@@ -25,3 +25,6 @@ THEN I am prompted to select an employee to update and their new role and this i
 <img width="843" alt="Screenshot 2023-03-15 at 11 22 08 PM" src="https://user-images.githubusercontent.com/122828454/225522301-bf7ce50a-e225-4597-a362-16a71e32fba8.png">
 
 ## Installation
+
+## Contributing
+- https://fsymbols.com/generators/carty/
