@@ -31,6 +31,7 @@ const init = () => {
           "View All Employees",
           "Add New Employee",
           "Update Employee",
+          "Delete Employee",
           "View All Departments",
           "Add New Department",
           "View All Roles",
@@ -50,6 +51,9 @@ const init = () => {
       }
       if (choices === "Update Employee") {
         updateEmployee();
+      }
+      if (choices === "Delete Employee"){
+        deleteEmployee();
       }
       if (choices === "View All Departments") {
         viewAllDepartments();
@@ -78,23 +82,15 @@ const viewAllDepartments = () => {
   let query = `SELECT * FROM department`;
   connection.query(query, (err, res) => {
     if (err) throw err;
-    const deptChoices = res.map((choices) => ({
-      value: choices.id,
-      name: choices.name,
-    }));
     console.table(res);
     init();
   });
 };
 //View all employees
 const viewAllEmployee = () => {
-  let query = `SELECT * FROM employee, role, department`;
+  let query = `SELECT * FROM employee` ;
   connection.query(query, (err, res) => {
     if (err) throw err;
-    const empChoices = res.map((choices) => ({
-      value: choices.id,
-      name: choices.name,
-    }));
     console.table(res);
     init();
   });
@@ -104,10 +100,6 @@ const viewAllRoles = () => {
   let query = `SELECT * FROM role`;
   connection.query(query, (err, res) => {
     if (err) throw err;
-    const roleChoices = res.map((choices) => ({
-      value: choices.id,
-      name: choices.name,
-    }));
     console.table(res);
     init();
   });
@@ -145,7 +137,7 @@ const addNewEmployee = () => {
           type: "list",
           name: "managerId",
           message: "select a manager id...",
-          choices: [0, 1, 2, 3, 4],
+          choices: [ 1, 2, 3, 4],
         },
       ])
       .then((data) => {
@@ -293,3 +285,4 @@ const updateEmployee = () => {
     });
   });
 };
+
